@@ -1,12 +1,11 @@
-const path = require('path')
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const dotenv = require('dotenv')
+const path = require('path');
+const dotenv = require('dotenv');
 
-dotenv.config()
+dotenv.config();
 
-const mode = process.env.NODE_ENV ?? 'production'
-const isDev = process.env.NODE_ENV !== 'production'
-const PORT = process.env.PORT
+const mode = process.env.NODE_ENV ?? 'production';
+const isDev = process.env.NODE_ENV !== 'production';
+const PORT = process.env.PORT;
 
 module.exports = {
   name: 'client',
@@ -17,23 +16,23 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'app.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   module: {
     rules: [
       {
         test: /\.(tsx|ts)?$/,
         use: {
-          loader: "swc-loader",
+          loader: 'swc-loader',
           options: {
             jsc: {
               parser: {
-                syntax: "typescript",
+                syntax: 'typescript',
                 tsx: true,
                 minify: !isDev,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         exclude: /node_modules/,
       },
@@ -48,13 +47,9 @@ module.exports = {
           },
         ],
       },
-    ]
+    ],
   },
-  plugins: [
-    new HTMLWebpackPlugin({
-      template: './src/public/index.html',
-    })
-  ],
+  plugins: [],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -62,6 +57,6 @@ module.exports = {
     hot: true,
     port: PORT,
     open: true,
-    historyApiFallback: true
+    historyApiFallback: true,
   },
 };

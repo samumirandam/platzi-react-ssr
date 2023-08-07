@@ -1,11 +1,13 @@
 import express, { Express, Request, Response } from 'express';
 import { config } from './config';
-import { template } from './render/template';
+import { render } from './render';
 
 const app: Express = express();
 
+app.use(express.static('dist'));
+
 app.get('*', (req: Request, res: Response) => {
-  res.send(template(`<h1>Url: ${req.url}</h1>`));
+  res.send(render(req.url));
 });
 
 app.listen(config.PORT, () => {
