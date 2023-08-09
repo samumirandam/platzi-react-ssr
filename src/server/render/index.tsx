@@ -1,17 +1,29 @@
 import React from 'react';
-import { App } from '../../app/containers/App';
 import { StaticRouter } from 'react-router-dom/server';
 import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
+
+import { App } from '../../app/containers/App';
 import { template } from './template';
 
 export const render = (url: string, initialProps = {}) => {
-  const stream = renderToString(
-    <StaticRouter location={url}>
-      <App />
-    </StaticRouter>,
-  );
+  const sheet = new ServerStyleSheet();
+  try {
+    const stream = renderToString(
+      sheet.collectStyles(
+        <StaticRouter location={url}>
+          <App />
+        </StaticRouter>,
+      ),
+    );
 
-  const html = template(stream, initialProps);
+    const styleTags = sheet.getStyleTags(); // or sheet.getStyleElement();
+    const html = template(stream, initialProps, styleTags);
 
-  return html;
+    return html;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    sheet.seal();
+  }
 };
