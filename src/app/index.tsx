@@ -8,7 +8,6 @@ import './assets/favicon.ico';
 const container = document.getElementById('app');
 
 const initialProps = window.__INITIAL_PROPS__;
-console.log('🚀 ~ file: index.tsx:11 ~ initialProps:', initialProps);
 
 hydrateRoot(
   container,
